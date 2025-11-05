@@ -1,5 +1,5 @@
 export async function GET() {
-  const products = [
+  const tickets = [
   {
     id: "t-1023",
     title: "Cannot connect to VPN",
@@ -136,5 +136,5 @@ export async function GET() {
     updatedAt: "2025-11-01T10:15:00Z"
   }
 ];
-  return Response.json(products);
+  return Response.json(tickets);
 }
