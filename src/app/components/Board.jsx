@@ -9,7 +9,7 @@ export default function Board() {
 const [tickets, setTickets] = useState([]);
 // const [loading, setLoading]   = useState(true);
 // const [error, setError]       = useState(null);
-// const filters = { status: 'All', priority: 'All' };
+const filters = { status: 'All', priority: 'All' };
 // const search = '';
 const [myQueue, setQueue] = useState([]);
 
@@ -32,8 +32,12 @@ const [myQueue, setQueue] = useState([]);
     return (
         <div>
              <TicketList tickets={tickets} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
-             <StatusFilter />
-             <PriorityFilter />
+             <StatusFilter value={filters.status}   
+                onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} />
+             <PriorityFilter value={filters.priority}   
+                onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}/>
+             <SearchBox value={search}
+                onChange={(newSearch) => setSearch(newSearch)} />
              
          </div>
         
