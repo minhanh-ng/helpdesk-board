@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import TicketList from './TicketList';
 export default function Board() {
 // Fetch state
 const [tickets, setTickets] = useState([]);
@@ -23,9 +24,13 @@ const [tickets, setTickets] = useState([]);
 
 
     return (
-        <ul>
-            {tickets.map(t =>  <li key={t.id}>{t.title} - priority: {t.priority}</li> )}
-        </ul>
+        <div>
+            {/* {tickets.map(t =>  <li key={t.id}>{t.title} - priority: {t.priority}</li> )} */}
+             <TicketList />
+        </div>
+        
+       
+        
         );
 }
 
