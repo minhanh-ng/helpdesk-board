@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import TicketList from './TicketList';
+import StatusFilter from './StatusFilter';
+import PriorityFilter from './PriorityFilter';
+
 export default function Board() {
 // Fetch state
 const [tickets, setTickets] = useState([]);
@@ -29,7 +32,10 @@ const [myQueue, setQueue] = useState([]);
     return (
         <div>
              <TicketList tickets={tickets} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
-        </div>
+             <StatusFilter />
+             <PriorityFilter />
+             
+         </div>
         
        
         
