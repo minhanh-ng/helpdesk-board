@@ -18,6 +18,10 @@ export default function MyQueueSummary( tickets, queue, onRemove, onClear) {
             ))}
             </ul>
         </div>
-        <button t>Click Me!</button>
+    {/* Clear button */}
+        
+        <button onClick={onClear} disabled={queued.length === 0}>
+        Clear Queue
+        </button>
     </div>
 }

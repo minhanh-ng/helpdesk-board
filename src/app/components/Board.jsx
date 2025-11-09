@@ -25,10 +25,24 @@ const [search, setSearch] = useState('');
         .then(setTickets)
         .catch(console.error);
         }, []);
-
+// Add to queue function
     function AddToMyQueue(ticket) {
         setQueue([...Queue, ticket]);
         };
+
+// Remove from queue function
+    function RemoveFromQueue(ticketId) {
+    setQueue(prev => {
+      const updated = { ...prev };
+      delete updated[ticketId];
+      return updated;
+    });
+}
+
+// Clear Queue Function
+    function ClearQueue() {
+        setQueue({});
+    }
 
 // Effect #2 - simulate live updates
 
@@ -42,7 +56,12 @@ const [search, setSearch] = useState('');
                 onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}/>
              <SearchBox value={search}
                 onChange={(newSearch) => setSearch(newSearch)} />
-             
+            <MyQueueSummary
+                tickets={tickets}
+                queue={queue}
+                onRemove={removeFromQueue}
+                onClear={clearQueue}
+                />
          </div>
         
        
