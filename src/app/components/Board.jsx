@@ -104,9 +104,11 @@ useEffect(() => {
             </header>
             <div className="filter-bar">
                 <StatusFilter value={filters.status}   
-                    onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} />
+                    onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} 
+                    options={['All', 'Open', 'In Progress', 'On Hold', 'Resolved']} />
                 <PriorityFilter value={filters.priority}   
-                    onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}/>
+                    onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}
+                    options= {['All', 'Low', 'Medium', 'High', 'Critical']} />
              <SearchBox value={search}
                 onChange={(newSearch) => setSearch(newSearch)} />
             </div>
