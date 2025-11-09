@@ -8,6 +8,16 @@ export default function MyQueueSummary( tickets, queue, onRemove, onClear) {
         <p>You have {queued.length} tickets in your queue. </p>
 
     {/* List of tickets */}
+        <div className="ticket-list">
+            <ul>
+            {queued.map(t => (
+            <li key={t.id}>
+                {t.title}{' '}
+                <button onClick={() => onRemove(t.id)}>Remove</button>
+            </li>
+            ))}
+            </ul>
+        </div>
         <button t>Click Me!</button>
     </div>
 }
