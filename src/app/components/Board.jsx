@@ -30,6 +30,8 @@ const [search, setSearch] = useState('');
         };
 
 // Effect #2 - simulate live updates
+
+
     return (
         <div>
              <TicketList tickets={tickets} queue={queue} AddToMyQueue={AddToMyQueue} />
