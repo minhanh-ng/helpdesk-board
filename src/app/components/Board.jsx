@@ -5,6 +5,7 @@ import StatusFilter from './StatusFilter';
 import PriorityFilter from './PriorityFilter';
 import SearchBox from './SearchBox';
 import StatusMessage from './StatusMessage';    
+import MyQueueSummary from './MyQueueSummary';
 
 export default function Board() {
 // Fetch state
@@ -12,7 +13,7 @@ const [tickets, setTickets] = useState([]);
 const [loading, setLoading]   = useState(true);
 const [error, setError]       = useState(null);
 const filters = { status: 'All', priority: 'All' };
-const [queue, setQueue] = useState([]);
+const [queue, setQueue] = useState({});
 const [search, setSearch] = useState('');   
 
  
@@ -27,7 +28,7 @@ const [search, setSearch] = useState('');
         }, []);
 // Add to queue function
     function AddToMyQueue(ticket) {
-        setQueue([...Queue, ticket]);
+        setQueue(prev => ({ ...prev, [ticket.id]: true }));
         };
 
 // Remove from queue function
@@ -97,18 +98,24 @@ useEffect(() => {
 
     return (
         <div>
-             <TicketList tickets={tickets} queue={queue} AddToMyQueue={AddToMyQueue} />
-             <StatusFilter value={filters.status}   
-                onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} />
-             <PriorityFilter value={filters.priority}   
-                onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}/>
+            <header className='header'>
+                
+                <p className='subtitle'>Filter by status and priority, search by keyword, and add ticket to your queue</p>
+            </header>
+            <div className="filter-bar">
+                <StatusFilter value={filters.status}   
+                    onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} />
+                <PriorityFilter value={filters.priority}   
+                    onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}/>
              <SearchBox value={search}
                 onChange={(newSearch) => setSearch(newSearch)} />
+            </div>
+            <TicketList tickets={tickets} queue={queue} AddToMyQueue={AddToMyQueue} />
             <MyQueueSummary
                 tickets={tickets}
                 queue={queue}
-                onRemove={removeFromQueue}
-                onClear={clearQueue}
+                onRemove={RemoveFromQueue}
+                onClear={ClearQueue}
                 />
          </div>
         

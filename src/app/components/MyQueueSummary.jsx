@@ -1,7 +1,8 @@
 'use client'
 
-export default function MyQueueSummary( tickets, queue, onRemove, onClear) {
+export default function MyQueueSummary({tickets=[], queue={}, onRemove, onClear}) {
     const queued = tickets.filter(t => queue[t.id]);
+    return (
     <div className="queue-summary">
         <h2>Summary</h2>
     {/* Total count of tickets */}
@@ -23,4 +24,5 @@ export default function MyQueueSummary( tickets, queue, onRemove, onClear) {
         Clear Queue
         </button>
     </div>
+    )
 }
