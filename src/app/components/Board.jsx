@@ -8,7 +8,7 @@ const [tickets, setTickets] = useState([]);
 // const [error, setError]       = useState(null);
 // const filters = { status: 'All', priority: 'All' };
 // const search = '';
-// const [queue, setQueue] = useState([]);
+const [myQueue, setQueue] = useState([]);
 
  
 
@@ -21,12 +21,14 @@ const [tickets, setTickets] = useState([]);
         .catch(console.error);
         }, []);
 
-
+    function AddToMyQueue(ticket) {
+        setQueue([...myQueue, ticket]);
+        };
 
     return (
         <div>
-            {/* {tickets.map(t =>  <li key={t.id}>{t.title} - priority: {t.priority}</li> )} */}
-             <TicketList />
+            
+             <TicketList tickets={tickets} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
         </div>
         
        
