@@ -25,9 +25,9 @@ const [myQueue, setQueue] = useState([]);
         setQueue([...myQueue, ticket]);
         };
 
+// Effect #2 - simulate live updates
     return (
         <div>
-            
              <TicketList tickets={tickets} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
         </div>
         
