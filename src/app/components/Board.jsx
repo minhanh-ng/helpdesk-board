@@ -45,6 +45,54 @@ const [search, setSearch] = useState('');
     }
 
 // Effect #2 - simulate live updates
+useEffect(() => {
+  if (!tickets.length) return;
+
+  const id = setInterval(() => {
+    // Pick a random ticket
+    setTickets(prev => {
+        const target = prev[Math.floor(Math.random() * prev.length)];
+
+    // Return a new array with updated ticket (immutability)
+        return prev.map(t => {
+        if (t.id !== target.id) return t;
+
+    // Randomly decide whether to change status or priority
+        const changeType = Math.random() > 0.5 ? 'status' : 'priority';
+
+        let newStatus = t.status;
+        let newPriority = t.priority;
+
+        // Change status 
+        if (changeType === 'status') {
+          if (t.status === 'Open') newStatus = 'In Progress';
+          else if (t.status === 'In Progress') newStatus = 'On Hold';
+          else if (t.status === 'On Hold') newStatus = 'Resolved';
+          else newStatus = 'Open';
+        }
+
+        // Change priority 
+        if (changeType === 'priority') {
+          if (t.priority === 'Low') newPriority = 'Medium';
+          else if (t.priority === 'Medium') newPriority = 'High';
+          else if (t.priority === 'High') newPriority = 'Critical';
+          else newPriority = 'Low';
+        }
+
+        // Update timestamp
+        return {
+          ...t,
+          status: newStatus,
+          priority: newPriority,
+          updatedAt: new Date().toLocaleTimeString(),
+        };
+      });
+    });
+  }, 6000 + Math.floor(Math.random() * 4000)); 
+
+  return () => clearInterval(id); // cleanup interval when unmounting
+}, [tickets.length]);
+
 
 
     return (
