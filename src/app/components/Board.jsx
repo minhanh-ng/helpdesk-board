@@ -4,6 +4,7 @@ import TicketList from './TicketList';
 import StatusFilter from './StatusFilter';
 import PriorityFilter from './PriorityFilter';
 import SearchBox from './SearchBox';
+import StatusMessage from './StatusMessage';    
 
 export default function Board() {
 // Fetch state
