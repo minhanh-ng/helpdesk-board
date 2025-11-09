@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import TicketList from './TicketList';
 import StatusFilter from './StatusFilter';
 import PriorityFilter from './PriorityFilter';
+import SearchBox from './SearchBox';
 
 export default function Board() {
 // Fetch state
 const [tickets, setTickets] = useState([]);
-// const [loading, setLoading]   = useState(true);
-// const [error, setError]       = useState(null);
+const [loading, setLoading]   = useState(true);
+const [error, setError]       = useState(null);
 const filters = { status: 'All', priority: 'All' };
-// const search = '';
-const [myQueue, setQueue] = useState([]);
+const [queue, setQueue] = useState([]);
+const [search, setSearch] = useState('');   
 
  
 
@@ -25,13 +26,13 @@ const [myQueue, setQueue] = useState([]);
         }, []);
 
     function AddToMyQueue(ticket) {
-        setQueue([...myQueue, ticket]);
+        setQueue([...Queue, ticket]);
         };
 
 // Effect #2 - simulate live updates
     return (
         <div>
-             <TicketList tickets={tickets} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
+             <TicketList tickets={tickets} queue={queue} AddToMyQueue={AddToMyQueue} />
              <StatusFilter value={filters.status}   
                 onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} />
              <PriorityFilter value={filters.priority}   

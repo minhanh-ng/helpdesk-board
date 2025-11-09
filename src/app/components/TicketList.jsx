@@ -2,7 +2,7 @@
 import TicketCard from "./TicketCard";
 
 // Maps products to cards (key={id})
- export default function TicketList({tickets = [], myQueue=[], AddToMyQueue}) {
+ export default function TicketList({tickets = [], Queue=[], AddToMyQueue}) {
     return (
         <div> 
             <h2>Queue</h2>
@@ -10,7 +10,7 @@ import TicketCard from "./TicketCard";
             <div className="ticket-list"> 
                 
                 {tickets.map(t => (
-          <TicketCard key={t.id} ticket={t} myQueue={myQueue} AddToMyQueue={AddToMyQueue} />
+          <TicketCard key={t.id} ticket={t} Queue={Queue} AddToMyQueue={AddToMyQueue} />
             ))}
             </div>
         </div>
