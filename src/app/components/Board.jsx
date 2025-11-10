@@ -8,24 +8,15 @@ import StatusMessage from './StatusMessage';
 import MyQueueSummary from './MyQueueSummary';
 
 export default function Board() {
-// Fetch state
+// Fetch state 
 const [tickets, setTickets] = useState([]);
 const [loading, setLoading]   = useState(true);
-const [error, setError]       = useState(null);
-const filters = { status: 'All', priority: 'All' };
+const [error, setError] = useState(null);
+const [filters, setFilters] = useState({ status: 'All', priority: 'All' });
 const [queue, setQueue] = useState({});
 const [search, setSearch] = useState('');   
 
- 
-
-
-// Effect #1 - fetch tickets from /api/ticket on mount.
-    useEffect(() => {
-        fetch('/api/tickets')
-        .then(r => r.json())
-        .then(setTickets)
-        .catch(console.error);
-        }, []);
+// Define functions
 // Add to queue function
     function AddToMyQueue(ticket) {
         setQueue(prev => ({ ...prev, [ticket.id]: true }));
@@ -44,6 +35,60 @@ const [search, setSearch] = useState('');
     function ClearQueue() {
         setQueue({});
     }
+
+ // Function to Return Search in Search Box
+ const visibleTickets = tickets.filter(t => {
+  const matchesStatus =
+    filters.status === 'All' || t.status === filters.status;
+
+  const matchesPriority =
+    filters.priority === 'All' || t.priority === filters.priority;
+
+  const searchTerm = search.toLowerCase();
+  const matchesSearch =
+    t.title.toLowerCase().includes(searchTerm) ||
+    (t.description && t.description.toLowerCase().includes(searchTerm));
+
+  return matchesStatus && matchesPriority && matchesSearch;
+});   
+
+// Define function for prop in Status Message
+const isEmpty = !loading && !error && visibleTickets.length === 0;
+
+// Effect #1 - fetch tickets from /api/ticket on mount.
+useEffect(() => {
+  let isActive = true; // guard against setState after unmount
+
+  async function load() {
+    try {
+      setLoading(true);
+
+      const res = await fetch('/api/tickets', { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+
+      if (isActive) {
+        setTickets(data);
+        setError(null);
+
+        setTimeout(() => {
+          if (isActive) setLoading(false);
+        }, 150);
+      }
+    } catch (err) {
+      if (isActive) {
+        console.error(err);
+        setError('Unable to load tickets.');
+        setLoading(false);
+      }
+    }
+  }
+
+  load();
+
+  return () => { isActive = false; };
+}, []);
 
 // Effect #2 - simulate live updates
 useEffect(() => {
@@ -91,6 +136,7 @@ useEffect(() => {
     });
   }, 6000 + Math.floor(Math.random() * 4000)); 
 
+
   return () => clearInterval(id); // cleanup interval when unmounting
 }, [tickets.length]);
 
@@ -110,15 +156,16 @@ useEffect(() => {
                     onChange={(newPriority) => setFilters(prev => ({ ...prev, priority: newPriority }))}
                     options= {['All', 'Low', 'Medium', 'High', 'Critical']} />
              <SearchBox value={search}
-                onChange={(newSearch) => setSearch(newSearch)} />
+                    onChange={setSearch} />
             </div>
-            <TicketList tickets={tickets} queue={queue} AddToMyQueue={AddToMyQueue} />
+            <StatusMessage loading={loading} error={error} isEmpty={isEmpty} />
+            <TicketList tickets={visibleTickets} queue={queue} AddToMyQueue={AddToMyQueue} />
             <MyQueueSummary
                 tickets={tickets}
                 queue={queue}
                 onRemove={RemoveFromQueue}
                 onClear={ClearQueue}
-                />
+            />
          </div>
         
        

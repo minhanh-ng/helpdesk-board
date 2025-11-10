@@ -4,7 +4,7 @@ export default function StatusMessage({ loading, error, isEmpty }) {
   if (loading) {
     return (
       <div className="rounded border p-3 bg-yellow-50 text-yellow-900">
-        Loading products…
+        Loading tickets...
       </div>
     );
   }
@@ -18,7 +18,7 @@ export default function StatusMessage({ loading, error, isEmpty }) {
   if (isEmpty) {
     return (
       <div className="rounded border p-3 bg-blue-50 text-blue-800">
-        No products match your filters.
+        No tickets match your filters.
       </div>
     );
   }
