@@ -149,7 +149,7 @@ return (
             <p className='subtitle'>Filter by status and priority, search by keyword, and add ticket to your queue</p>
         </header>
             <div className="filter-bar">
-
+            {/* Filters and Search Box */}
                 <StatusFilter value={filters.status}   
                     onChange={(newStatus) => setFilters(prev => ({ ...prev, status: newStatus }))} 
                     options={['All', 'Open', 'In Progress', 'On Hold', 'Resolved']} />
@@ -162,13 +162,18 @@ return (
                     onChange={setSearch} />
 
             </div>
-            
+
+            {/* Status Message */}
             <StatusMessage loading={loading} error={error} isEmpty={isEmpty} />
 
+            {/* Product List */}
+            {!loading && !error && visibleTickets.length > 0 && (
             <TicketList tickets={visibleTickets} queue={queue} AddToMyQueue={AddToMyQueue} />
+            )}
 
+            {/* My Queue Summary */}
             <MyQueueSummary
-                tickets={tickets}
+                tickets={visibleTickets}
                 queue={queue}
                 onRemove={RemoveFromQueue}
                 onClear={ClearQueue}
