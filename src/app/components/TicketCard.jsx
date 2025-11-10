@@ -2,12 +2,8 @@
 
 export default function TicketCard({ticket, myQueue, AddToMyQueue}) {
     const {id, title, priority, status, assignee, updatedAt} = ticket
-    let AlreadyInQueue = false
-    for (let i in myQueue) {
-      if (myQueue[i].id === id) {
-        AlreadyInQueue = true;
-      }
-    }
+    let AlreadyInQueue = !!myQueue[id]
+
     return (
     <div className="ticket-card">
         <h2>{title}</h2>
